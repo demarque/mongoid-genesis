@@ -40,49 +40,53 @@ This will create an embedded object that will store the original data.
 **Basic manipulation**
 
 ```ruby
-book = Book.new(:title => 'Art of war', :author => 'Sun Tzu', :country => 'China')
-#=> #<Book _id: 4f68d82f9421794f48000001, title: "Art of war", author: "Sun Tzu", _type: nil, country: "China">
+book = Book.new(:title => 'Art of war', :author => 'Sun Tzu')
+#=> #<Book _id: 1, title: "Art of war", author: "Sun Tzu">
 
 book.genesis
 #=> #<BookGenesis _id: 4f68d82f9421794f48000002, _type: nil >
 
+
 # The origin will be save
 
 book.write_and_preserve_attribute(:author, 'Sun Zi')
-#=> #<Book _id: 4f68d82f9421794f48000001, title: "Art of war", author: "Sun Zi", _type: nil, country: "China">
+#=> #<Book _id: 1, title: "Art of war", author: "Sun Zi">
 
 book.genesis
-#=> #<BookGenesis _id: 4f68d82f9421794f48000002, _type: nil, author: "Sun Tzu">
+#=> #<BookGenesis _id: 1, author: "Sun Tzu">
+
 
 # The origin will not be overwritten
 
 book.write_and_preserve_attribute(:author, 'Sun Wu')
-#=> #<Book _id: 4f68d82f9421794f48000001, title: "Art of war", author: "Sun Wu", _type: nil, country: "China">
+#=> #<Book _id: 1, title: "Art of war", author: "Sun Wu">
 
 book.genesis
-#=> #<BookGenesis _id: 4f68d82f9421794f48000002, _type: nil, author: "Sun Tzu">
+#=> #<BookGenesis _id: 1, author: "Sun Tzu">
+
 
 # Restoring the origin
 
 book.restore_genesis(:author)
-#=> #<Book _id: 4f68d82f9421794f48000001, title: "Art of war", author: "Sun Tzu", _type: nil, country: "China">
+#=> #<Book _id: 1, title: "Art of war", author: "Sun Tzu">
 
 book.genesis
-#=> #<BookGenesis _id: 4f68d82f9421794f48000002, _type: nil, author: nil>
+#=> #<BookGenesis _id: 1, author: nil>
+
 
 # To make some modifications on the original without losing the current state
 
 book.write_and_preserve_attribute(:title, 'The Art of Peace')
 book.reverse_genesis
 
-#=> #<Book _id: 4f68d82f9421794f48000001, title: "The Art of War", author: "Sun Tzu", _type: nil, country: "China">
-#=> #<BookGenesis _id: 4f68d82f9421794f48000002, _type: nil, title: "The Art of Peace">
+#=> #<Book _id: 1, title: "The Art of War", author: "Sun Tzu">
+#=> #<BookGenesis _id: 1, title: "The Art of Peace">
 
 book.title = "The Art of War : Revisited"
 book.reverse_genesis
 
-#=> #<Book _id: 4f68d82f9421794f48000001, title: "The Art of Peace", author: "Sun Tzu", _type: nil, country: "China">
-#=> #<BookGenesis _id: 4f68d82f9421794f48000002, _type: nil, title: "The Art of War : Revisited">
+#=> #<Book _id: 1, title: "The Art of Peace", author: "Sun Tzu">
+#=> #<BookGenesis _id: 1, title: "The Art of War : Revisited">
 
 ```
 
