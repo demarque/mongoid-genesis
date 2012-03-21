@@ -21,5 +21,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency("bson_ext", "~> 1.6")
   s.add_development_dependency('rake', ['>= 0.8.7'])
   s.add_development_dependency('rspec', ['>= 2.0'])
-  s.add_development_dependency('metrical', ['>= 0.1.0'])
 end

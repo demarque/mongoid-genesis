@@ -1,6 +1,8 @@
 Mongoid Genesis
 ===============
 
+[![Build Status](https://secure.travis-ci.org/demarque/mongoid-genesis.png?branch=master)](http://travis-ci.org/demarque/mongoid-genesis)
+
 Mongoid Genesis will give you the ability to override data in your model
 without losing the initial data.
 
@@ -44,7 +46,7 @@ book = Book.new(:title => 'Art of war', :author => 'Sun Tzu')
 #=> #<Book _id: 1, title: "Art of war", author: "Sun Tzu">
 
 book.genesis
-#=> #<BookGenesis _id: 4f68d82f9421794f48000002, _type: nil >
+#=> #<BookGenesis _id: 1>
 
 
 # The origin will be save
