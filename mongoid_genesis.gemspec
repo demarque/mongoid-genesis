@@ -2,17 +2,17 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
-  s.name        = "mongoid_genesis"
+  s.name        = "mongoid-genesis"
   s.version     = '0.0.1'
   s.authors     = ["Sebastien Rosa"]
   s.email       = ["sebastien@demarque.com"]
   s.extra_rdoc_files = ["LICENSE", "README.md"]
   s.licenses = ["MIT"]
-  s.homepage    = "http://www.demarque.com"
+  s.homepage    = "https://github.com/demarque/mongoid-genesis"
   s.summary     = "Preserve the original data of a model."
   s.description = "Mongoid Genesis will give you the ability to override attribute values without losing the original one."
 
-  s.rubyforge_project = "mongoid_genesis"
+  s.rubyforge_project = "mongoid-genesis"
 
   s.files         = Dir.glob('{lib,spec}/**/*') + %w(LICENSE README.md Rakefile Gemfile)
   s.require_paths = ["lib"]
