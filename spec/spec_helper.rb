@@ -4,7 +4,7 @@ require "bundler/setup"
 require 'rspec'
 
 require 'mongoid'
-require File.expand_path('../../lib/mongoid_genesis', __FILE__)
+require File.expand_path('../../lib/mongoid-genesis', __FILE__)
 
 
 Mongoid.configure do |config|

@@ -10,7 +10,7 @@ Install
 -------
 
 ```
-gem install mongoid_genesis
+gem install mongoid-genesis
 ```
 
 Rails 3
@@ -19,7 +19,7 @@ Rails 3
 In your Gemfile:
 
 ```ruby
-gem 'mongoid_genesis'
+gem 'mongoid-genesis'
 ```
 
 Usage
@@ -39,7 +39,7 @@ end
 
 This will create an embedded object that will store the original data.
 
-**Basic manipulation**
+**Basic structure**
 
 ```ruby
 book = Book.new(:title => 'Art of war', :author => 'Sun Tzu')
@@ -47,37 +47,41 @@ book = Book.new(:title => 'Art of war', :author => 'Sun Tzu')
 
 book.genesis
 #=> #<BookGenesis _id: 1>
+```
 
+**Preserve the original attribute**
 
-# The origin will be save
-
+```ruby
 book.write_and_preserve_attribute(:author, 'Sun Zi')
 #=> #<Book _id: 1, title: "Art of war", author: "Sun Zi">
 
 book.genesis
 #=> #<BookGenesis _id: 1, author: "Sun Tzu">
+```
 
+**After preserving the original attribute, it will not be overwritten**
 
-# The origin will not be overwritten
-
+```ruby
 book.write_and_preserve_attribute(:author, 'Sun Wu')
 #=> #<Book _id: 1, title: "Art of war", author: "Sun Wu">
 
 book.genesis
 #=> #<BookGenesis _id: 1, author: "Sun Tzu">
+```
 
+**You can restore the original attribute**
 
-# Restoring the origin
-
+```ruby
 book.restore_genesis(:author)
 #=> #<Book _id: 1, title: "Art of war", author: "Sun Tzu">
 
 book.genesis
 #=> #<BookGenesis _id: 1, author: nil>
+```
 
+**To update the original document without losing the current state**
 
-# To make some modifications on the original without losing the current state
-
+```ruby
 book.write_and_preserve_attribute(:title, 'The Art of Peace')
 book.reverse_genesis
 
@@ -89,7 +93,6 @@ book.reverse_genesis
 
 #=> #<Book _id: 1, title: "The Art of Peace", author: "Sun Tzu">
 #=> #<BookGenesis _id: 1, title: "The Art of War : Revisited">
-
 ```
 
 Copyright
