@@ -27,9 +27,13 @@ module Mongoid
 
     def write_and_preserve_attribute(field_name, value)
       init_genesis if not self.genesis
-      self.genesis.preserve field_name
 
-      self.write_attribute(field_name, value)
+      if value and self.genesis.read_attribute(field_name) == value
+        self.restore_genesis(field_name)
+      else
+        self.genesis.preserve field_name
+        self.write_attribute(field_name, value)
+      end
     end
   end
 end

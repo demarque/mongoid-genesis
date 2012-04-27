@@ -24,12 +24,26 @@ describe Mongoid::Genesis do
         its(:title) { should eql 'The Art of Peace' }
         its('genesis.title') { should eql 'The Art of War' }
 
-        context "when changing title to 'The Art of Neutrality'" do
+        context "and changing title to 'The Art of Neutrality'" do
           before { book.write_and_preserve_attribute :title, 'The Art of Neutrality' }
 
           its(:title) { should eql 'The Art of Neutrality' }
           its('genesis.title') { should eql 'The Art of War' }
+
+          context "and rechanging it to 'The Art of War'" do
+            before { book.write_and_preserve_attribute :title, 'The Art of War' }
+
+            its(:title) { should eql 'The Art of War' }
+            its('genesis.title') { should be_nil }
+          end
         end
+      end
+
+      context "when changing title to nil" do
+        before { book.write_and_preserve_attribute :title, nil }
+
+        its(:title) { should be_nil }
+        its('genesis.title') { should eql 'The Art of War' }
       end
     end
 
@@ -37,7 +51,7 @@ describe Mongoid::Genesis do
       context "when changing title to 'The Art of Peace'" do
         before { book.write_and_preserve_attribute :title, 'The Art of Peace' }
 
-        context "when restoring genesis for title" do
+        context "and restoring genesis for title" do
           before { book.restore_genesis(:title) }
 
           its(:title) { should eql 'The Art of War' }
