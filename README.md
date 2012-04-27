@@ -28,7 +28,7 @@ Usage
 Mongoid Genesis is compatible with any mongoid collection or embedded object.
 
 
-**Model integration**
+#### Model integration
 
 ```ruby
 class Book
@@ -39,7 +39,7 @@ end
 
 This will create an embedded object that will store the original data.
 
-**Basic structure**
+#### Basic structure
 
 ```ruby
 book = Book.new(:title => 'The Art of War', :author => 'Sun Tzu')
@@ -49,7 +49,7 @@ book.genesis
 #=> #<BookGenesis _id: 1>
 ```
 
-**Preserve the original attribute**
+#### Preserve the original attribute
 
 ```ruby
 book.write_and_preserve_attribute(:author, 'Sun Zi')
@@ -59,7 +59,7 @@ book.genesis
 #=> #<BookGenesis _id: 1, author: "Sun Tzu">
 ```
 
-**After preserving the original attribute, it will not be overwritten**
+#### After preserving the original attribute, it will not be overwritten
 
 ```ruby
 book.write_and_preserve_attribute(:author, 'Sun Wu')
@@ -69,7 +69,7 @@ book.genesis
 #=> #<BookGenesis _id: 1, author: "Sun Tzu">
 ```
 
-**At all time, you can read the original attribute**
+#### At all time, you can read the original attribute
 
 ```ruby
 book.read_attribute_genesis(:title)
@@ -80,7 +80,7 @@ book.read_attribute_genesis(:title)
 #=> "The Art of War"
 ```
 
-**You can restore the original attribute**
+#### You can restore the original attribute
 
 ```ruby
 book.restore_genesis(:author)
@@ -90,7 +90,7 @@ book.genesis
 #=> #<BookGenesis _id: 1, author: nil>
 ```
 
-**To update the original document without losing the current state**
+#### To update the original document without losing the current state
 
 ```ruby
 book.write_and_preserve_attribute(:title, 'The Art of Peace')
@@ -105,6 +105,25 @@ book.reverse_genesis
 #=> #<Book _id: 1, title: "The Art of Peace", author: "Sun Tzu">
 #=> #<BookGenesis _id: 1, title: "The Art of War : Revisited">
 ```
+
+Cheat Sheet
+---------
+
+#### read_attribute_genesis(field_name)
+Read the original attribute of the record. If the attribute wasn't overwritten, it will return the same thing as .read_attribute.
+
+#### restore_genesis(field_name)
+Restore the original value for the given field
+
+
+#### reverse_genesis
+Restore the record to its original state
+
+
+#### write_and_preserve_attribute(field_name, value)
+Overwrite the attribute with the *value* and saves the original value in the genesis object.
+
+
 
 Copyright
 ---------
