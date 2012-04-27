@@ -17,8 +17,14 @@ module Mongoid
       self.genesis = "#{self.class.name}Genesis".constantize.new
     end
 
+    def read_attribute_genesis(field_name)
+      source = (self.genesis and self.genesis.field_preserved?(field_name)) ? self.genesis : self
+
+      return source.read_attribute field_name
+    end
+
     def restore_genesis(field_name)
-      self.genesis.restore(field_name)
+      self.genesis.restore field_name
     end
 
     def reverse_genesis

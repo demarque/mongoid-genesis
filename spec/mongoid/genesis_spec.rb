@@ -17,33 +17,41 @@ describe Mongoid::Genesis do
       end
     end
 
-    describe "#write_and_preserve_attribute" do
-      context "when changing title to 'The Art of Peace'" do
-        before { book.write_and_preserve_attribute :title, 'The Art of Peace' }
+    describe "#read_attribute_genesis" do
+      context "when reading the genesis title" do
+        subject { book.read_attribute_genesis(:title) }
 
-        its(:title) { should eql 'The Art of Peace' }
-        its('genesis.title') { should eql 'The Art of War' }
+        it { should eql 'The Art of War' }
+      end
 
-        context "and changing title to 'The Art of Neutrality'" do
-          before { book.write_and_preserve_attribute :title, 'The Art of Neutrality' }
+      context "when changing the author to 'Sun Wu'" do
+        before { book.write_and_preserve_attribute :author, 'Sun Wu' }
 
-          its(:title) { should eql 'The Art of Neutrality' }
-          its('genesis.title') { should eql 'The Art of War' }
+        context "when reading the genesis title" do
+          subject { book.read_attribute_genesis(:title) }
 
-          context "and rechanging it to 'The Art of War'" do
-            before { book.write_and_preserve_attribute :title, 'The Art of War' }
-
-            its(:title) { should eql 'The Art of War' }
-            its('genesis.title') { should be_nil }
-          end
+          it { should eql 'The Art of War' }
         end
       end
 
-      context "when changing title to nil" do
-        before { book.write_and_preserve_attribute :title, nil }
+      context "when changing title to 'The Art of Peace'" do
+        before { book.write_and_preserve_attribute :title, 'The Art of Peace' }
 
-        its(:title) { should be_nil }
-        its('genesis.title') { should eql 'The Art of War' }
+        context "when reading the genesis title" do
+          subject { book.read_attribute_genesis(:title) }
+
+          it { should eql 'The Art of War' }
+        end
+
+        context "and restoring the title" do
+          before { book.restore_genesis :title }
+
+          context "when reading the genesis title" do
+            subject { book.read_attribute_genesis(:title) }
+
+            it { should eql 'The Art of War' }
+          end
+        end
       end
     end
 
@@ -83,7 +91,36 @@ describe Mongoid::Genesis do
           end
         end
       end
+    end
 
+    describe "#write_and_preserve_attribute" do
+      context "when changing title to 'The Art of Peace'" do
+        before { book.write_and_preserve_attribute :title, 'The Art of Peace' }
+
+        its(:title) { should eql 'The Art of Peace' }
+        its('genesis.title') { should eql 'The Art of War' }
+
+        context "and changing title to 'The Art of Neutrality'" do
+          before { book.write_and_preserve_attribute :title, 'The Art of Neutrality' }
+
+          its(:title) { should eql 'The Art of Neutrality' }
+          its('genesis.title') { should eql 'The Art of War' }
+
+          context "and rechanging it to 'The Art of War'" do
+            before { book.write_and_preserve_attribute :title, 'The Art of War' }
+
+            its(:title) { should eql 'The Art of War' }
+            its('genesis.title') { should be_nil }
+          end
+        end
+      end
+
+      context "when changing title to nil" do
+        before { book.write_and_preserve_attribute :title, nil }
+
+        its(:title) { should be_nil }
+        its('genesis.title') { should eql 'The Art of War' }
+      end
     end
   end
 end
